@@ -27,20 +27,28 @@ export async function main() {
     messages: [
       { role: "developer", content: "You work on trivia-generating (in Bahasa Indonesia) agency for people in indonesia especially parents." },
       { role:"user", content: `
-        You work on trivia-generating (in Bahasa Indonesia) agency for people in indonesia especially parents.
+        You work on trivia - generating( in Bahasa Indonesia) agency for people in indonesia especially parents.
 
         PROMPT START
 
-          I want you to make 350-500 words content in Bahasa Indonesia, its like trivia, facts, about financial and law for education purpose, keep the language simple and relatable. To help people in indonesia especially parents. Include interesting fact, what does it mean?, example, why is it important for parents?. Make it enjoyable to read, NOT a list of stuff, NOT like a power point presentation, its paragraphs.
-          
-          Create light non-cheesy moral message of the story. Don't force the moral messages in story paragraph.
-          Create trivia hook with curiosity hooking question (max 3 sentences) for trivia overview. Lets call it summary.
-          Create list of keywords for good vocabulary enriching.
+        I want you to make no more than 500 words content in Bahasa Indonesia, its like trivia, facts, about financial and law for education purpose, keep the language simple and relatable. To help people in indonesia especially parents. Make it fun, engaging with emoji, and markdown style.
 
-        Use Output Format: JSON {title: string, summary: string, moral: string, paragraphs: string[], keywords: string[5-10 words]}
+        Isinya trivia harus memuat satu-satu dari hal dibawah ini. 
+        Fakta menarik
+        Apa artinya?
+        Contoh 
+        Kenapa penting untuk orang tua?
+
+        Format the pragrapghs in markdown ready style.
+
+        Create light non - cheesy moral message of the story(max 2 sentences).Don 't force the moral messages in story paragraph.
+        Create trivia hook with curiosity hooking question(max 2 sentences) for trivia overview.Lets call it summary.
+        Create list of keywords for good vocabulary enriching.
+
+        Use Output Format: JSON {title: string,summary: string,moral: string,paragraphs: string[],keywords: string[5 - 10 words]}
         Just give me the JSON oputput without any additional answers.
 
-        PROMPT END
+        PROMPT END 
         ` }
     ],
     model: "openai/gpt-4.1-nano",

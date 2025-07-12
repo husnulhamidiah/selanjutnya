@@ -1,0 +1,13 @@
+:root {
+  --main-width: 36rem;
+  --p-line-height: 2em;
+  --p-font-size: 1.2em;
+}
+
+.line-date {
+  font-size: smaller;
+}
+
+.line-summary {
+  font-size: smaller;
+}

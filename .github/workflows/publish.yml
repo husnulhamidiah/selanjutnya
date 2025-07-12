@@ -1,0 +1,70 @@
+name: Generate content & Deploy Hugo
+
+on:
+  # push:
+  #   branches: [main]
+  workflow_dispatch:
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          cd scripts
+          if [ -f package.json ]; then npm ci; fi
+
+      - name: Generate content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/generate-content.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Husnul Anwari"
+          git config user.email "husnulhamidiah@gmail.com"
+
+          git pull origin main --rebase
+
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate content on $(date +'%Y%m%d')"
+            git push origin main
+          fi
+
+  deploy:
+    needs: update-content
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.147.0'
+          extended: true
+
+      - name: Build Hugo site
+        run: hugo --minify
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
